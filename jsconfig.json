@@ -1,0 +1,7 @@
+{
+    "compilerOptions": {
+        "baseUrl": "front_client",
+        "checkJs": true,
+        "jsx": "react"
+    }
+}
