@@ -6,7 +6,6 @@ import Register from "./pages/auth/Register";
 import Home from "./pages/Home";
 import Header from './nav/Header';
 
-
 const App = () => {
   return (
 <>
