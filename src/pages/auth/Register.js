@@ -43,21 +43,6 @@ const Register = () => {
       </>
     );
   };
-  //   <form onSubmit={handleSubmit}>
-  //     <input
-  //       type="email"
-  //       className="form-control"
-  //       value={email}
-  //       onChange={(e) => console.log(e.target.value)}
-  //       autoFocus
-  //     />
-  //     <input
-  //       type="password"
-  //       className="form-control"
-  //       value={password}
-  //       onChange={(e) => setPassword(e.target.value)}
-  //     />
-  //   </form>;
 
   return (
     <div className="container py-5">
