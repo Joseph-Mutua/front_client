@@ -1,6 +1,5 @@
-import * as firebase from 'firebase'
+import firebase from "firebase/app"
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyAE6oBnBhG5Kons1Uj6XSkfAtX9JEnP1Mc",
   authDomain: "thriftshop-5f417.firebaseapp.com",
@@ -12,6 +11,5 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-
-export const auth = firebase.auth();
-export const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+export const firebaseAuth = firebase.auth();
+export const googleAuthSrc = new firebase.auth.GoogleAuthProvider();

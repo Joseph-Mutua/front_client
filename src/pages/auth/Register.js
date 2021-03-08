@@ -1,10 +1,30 @@
 import React, { useState } from "react";
+import {toast, ToastContainer} from "react-toastify";
+import { firebaseAuth } from '../../firebase';
+import "react-toastify/dist/ReactToastify.css"
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const pageOnSubmit = {
+      url: "http://localhost:3000/register/complete",
+      handlecodeInApp: true,
+    }
+
+    await firebaseAuth.sendSignInLinkToEmail(email, pageOnSubmit);
+    toast.success(`Email is sent to ${email}. Click the link to complete your registration`)
+
+    //Save user email in local storage
+    window.localStorage.setItem("emailForConfirmation");
+
+    //Clear State
+    setEmail("");
+
+  };
 
   const registrationForm = () => {
     return (
