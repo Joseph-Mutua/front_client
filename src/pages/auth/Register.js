@@ -12,14 +12,14 @@ const Register = () => {
 
     const pageOnSubmit = {
       url: "http://localhost:3000/register/complete",
-      handlecodeInApp: true,
+      handleCodeInApp: true,
     }
 
     await firebaseAuth.sendSignInLinkToEmail(email, pageOnSubmit);
     toast.success(`Email is sent to ${email}. Click the link to complete your registration`)
 
     //Save user email in local storage
-    window.localStorage.setItem("emailForConfirmation");
+    window.localStorage.setItem("emailForConfirmation", email);
 
     //Clear State
     setEmail("");
@@ -69,6 +69,7 @@ const Register = () => {
       <div className="row">
         <div className="col-md-6 offset-md-3">
           <h4 className="text-center d-3">Register</h4>
+          <ToastContainer/>
           {registrationForm()}
         </div>
       </div>
