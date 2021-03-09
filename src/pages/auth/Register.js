@@ -27,7 +27,7 @@ const Register = () => {
   };
 
   const registrationForm = () => {
-    return (
+   return ( 
       <>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -56,12 +56,12 @@ const Register = () => {
               Minimum Length: 8 characters
             </small>
           </div>
-          <button type="button" className="btn btn-outline-primary">
+          <button type="submit" className="btn btn-outline-primary">
             Submit
           </button>
         </form>
       </>
-    );
+   );
   };
 
   return (
