@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { firebaseAuth } from "../../firebase";
+import { auth } from "../../firebase";
 import { toast } from "react-toastify";
 
 
@@ -10,23 +10,25 @@ const Register = () => {
     e.preventDefault();
 
     const pageOnSubmit = {
-      url: process.env.REACT_APP_REGISTRATION_REDIRECT_URL,
+      // url: process.env.REACT_APP_REGISTRATION_REDIRECT_URL,
+      url: "http://localhost:3000/register/complete",
       handleCodeInApp: true,
     }
 
-    await firebaseAuth.sendSignInLinkToEmail(email, pageOnSubmit);
+    await auth.sendSignInLinkToEmail(email, pageOnSubmit);
     toast.success(`Email is sent to ${email}. Click the link to complete your registration`)
 
     //Save user email in local storage
     window.localStorage.setItem("emailForConfirmation", email);
 
+    
     //Clear State
     setEmail("");
 
   };
 
   const registrationForm = () => {
-   return ( 
+    return ( 
       <>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -41,26 +43,12 @@ const Register = () => {
             />
           </div>
 
-          {/* <div className="form-group">
-            <label htmlFor="exampleInputPassword1"></label>
-            <input
-              type="password"
-              value={password}
-              className="form-control"
-              id="exampleInputPassword1"
-              placeholder="Password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <small id="emailHelp" className="form-text text-muted">
-              Minimum Length: 8 characters
-            </small>
-          </div> */}
           <button type="submit" className="btn btn-outline-primary">
             Submit
           </button>
         </form>
       </>
-   );
+    );
   };
 
   return (

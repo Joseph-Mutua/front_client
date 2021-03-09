@@ -1,19 +1,54 @@
 import React, { useState, useEffect } from "react";
-import { firebaseAuth } from "../../firebase";
+import { auth } from "../../firebase";
 import { toast } from "react-toastify";
 
 const RegistrationCompletion = ({ history }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  useState(() => {
+  useEffect(() => {
     setEmail(window.localStorage.getItem("emailForConfirmation"));
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    
+    if(!email || !password) {
+      toast.error("Email and Password is Required")
+      return;
+    }
+
+    if(password.length < 6) {
+      toast.error("EPassword should atleast be 6 characters");
+      return;
+    }
+
+    try {
+      const result = await auth.signInWithEmailLink(
+        email,
+        window.location.href
+      );
+      
+      if(result.user.emailVerified) {
+        //remove user email from local storage
+        window.localStorage.removeItem("emailForConfirmation");
+
+        //get user id token
+        let user = auth.currentUser;
+        await user.updatePassword(password);
+        const idTokenResult = await user.getIdTokenResult();
+
+        //redux store
+        console.log("user", user, "idTokenResult", idTokenResult)
+
+        //redirect
+        history.push("/")
+      }
+
+    } catch (err) {
+      console.log(err);
+      toast.error(err.message);
+    }
   };
 
   const completeRegistrationForm = () => {
@@ -40,11 +75,11 @@ const RegistrationCompletion = ({ history }) => {
               className="form-control"
               id="exampleInputPassword1"
               placeholder="Password"
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               autoFocus
             />
             <small id="emailHelp" className="form-text text-muted">
-              Minimum Length: 8 characters
+              Minimum Length: 6 characters
             </small>
           </div>
           <button type="submit" className="btn btn-outline-primary">
