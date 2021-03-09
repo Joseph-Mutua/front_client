@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import {toast, ToastContainer} from "react-toastify";
-import { firebaseAuth } from '../../firebase';
-import "react-toastify/dist/ReactToastify.css"
+import { firebaseAuth } from "../../firebase";
+import { toast } from "react-toastify";
+
 
 const Register = () => {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const [password, setPassword] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const pageOnSubmit = {
-      url: "http://localhost:3000/register/complete",
+      url: process.env.REACT_APP_REGISTRATION_REDIRECT_URL,
       handleCodeInApp: true,
     }
 
@@ -42,7 +42,7 @@ const Register = () => {
             />
           </div>
 
-          <div className="form-group">
+          {/* <div className="form-group">
             <label htmlFor="exampleInputPassword1"></label>
             <input
               type="password"
@@ -55,7 +55,7 @@ const Register = () => {
             <small id="emailHelp" className="form-text text-muted">
               Minimum Length: 8 characters
             </small>
-          </div>
+          </div> */}
           <button type="submit" className="btn btn-outline-primary">
             Submit
           </button>
@@ -69,7 +69,7 @@ const Register = () => {
       <div className="row">
         <div className="col-md-6 offset-md-3">
           <h4 className="text-center d-3">Register</h4>
-          <ToastContainer/>
+
           {registrationForm()}
         </div>
       </div>
