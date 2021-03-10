@@ -22,7 +22,7 @@ const App = () => {
         const idTokenResult = await user.getIdTokenResult();
 
         dispatch({
-          type: "USER_LOGGED_IN",
+          type: "LOG_IN_USER",
           payload: {
             email: user.email,
             token: idTokenResult.token,
