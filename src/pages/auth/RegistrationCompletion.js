@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { auth } from "../../firebase";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { createOrUpdateUser } from '../../helpers/auth';
+
 
 const RegistrationCompletion = ({ history }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  let dispatch = useDispatch() 
+  const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
     setEmail(window.localStorage.getItem("emailForConfirmation"));
@@ -13,12 +18,12 @@ const RegistrationCompletion = ({ history }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if(!email || !password) {
-      toast.error("Email and Password is Required")
+    if (!email || !password) {
+      toast.error("Email and Password is Required");
       return;
     }
 
-    if(password.length < 6) {
+    if (password.length < 6) {
       toast.error("EPassword should atleast be 6 characters");
       return;
     }
@@ -28,8 +33,8 @@ const RegistrationCompletion = ({ history }) => {
         email,
         window.location.href
       );
-      
-      if(result.user.emailVerified) {
+
+      if (result.user.emailVerified) {
         //remove user email from local storage
         window.localStorage.removeItem("emailForConfirmation");
 
@@ -39,12 +44,28 @@ const RegistrationCompletion = ({ history }) => {
         const idTokenResult = await user.getIdTokenResult();
 
         //redux store
-        console.log("user", user, "idTokenResult", idTokenResult)
+        console.log("user", user, "idTokenResult", idTokenResult);
 
+        createOrUpdateUser(idTokenResult.token)
+          .then((res) => {
+            console.log(res);
+            dispatch({
+              type: "LOGGED_IN_USER",
+              payload: {
+                name: res.data.name,
+                email: res.data.email,
+                token: idTokenResult.token,
+                role: res.data.role,
+                _id: res.data._id,
+              },
+            });
+          })
+          .catch((err) => {
+            console.log(err.message);
+          });
         //redirect
-        history.push("/")
+        history.push("/");
       }
-
     } catch (err) {
       console.log(err);
       toast.error(err.message);
