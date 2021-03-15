@@ -5,7 +5,6 @@ import { Button } from "antd";
 import { MailOutlined, GoogleOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { createOrUpdateUser } from "../../helpers/auth";
 
 const Login = ({ history }) => {
@@ -14,6 +13,14 @@ const Login = ({ history }) => {
   const [loading, setLoading] = useState(false);
 
   const { user } = useSelector((state) => ({ ...state }));
+
+  const roleBasedRedirect = (res) => {
+    if (res.data.role === "admin") {
+      history.push("/admin/dashboard");
+    } else {
+      history.push("/user/history");
+    }
+  };
 
   useEffect(() => {
     if (user && user.token) history.push("/");
@@ -45,13 +52,15 @@ const Login = ({ history }) => {
               _id: res.data._id,
             },
           });
+          roleBasedRedirect(res);
         })
         .catch((err) => {
           console.log(err.message);
         });
-      history.push("/");
+
+      // history.push("/");
     } catch (err) {
-      console.log(err);
+      console.log(err.message);
       toast.error(err.message);
       setLoading(false);
     }
@@ -61,12 +70,11 @@ const Login = ({ history }) => {
     auth
       .signInWithPopup(googleAuthProvider)
       .then(async (result) => {
-
         console.log(user);
 
         const { user } = result;
         const idTokenResult = await user.getIdTokenResult();
-        
+
         createOrUpdateUser(idTokenResult.token)
           .then((res) => {
             console.log(res);
@@ -80,12 +88,14 @@ const Login = ({ history }) => {
                 _id: res.data._id,
               },
             });
-            history.push("/");
+            roleBasedRedirect(res);
           })
           .catch((err) => {
             console.log(err);
             toast.error(err.message);
           });
+
+        // history.push("/");
       })
       .catch((err) => {
         console.log(err);
