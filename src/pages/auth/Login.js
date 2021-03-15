@@ -70,9 +70,8 @@ const Login = ({ history }) => {
     auth
       .signInWithPopup(googleAuthProvider)
       .then(async (result) => {
-        console.log(user);
-
         const { user } = result;
+          console.log(user);
         const idTokenResult = await user.getIdTokenResult();
 
         createOrUpdateUser(idTokenResult.token)
