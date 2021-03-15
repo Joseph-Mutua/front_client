@@ -24,7 +24,7 @@ const Login = ({ history }) => {
 
   useEffect(() => {
     if (user && user.token) history.push("/");
-  }, [user]);
+  }, [user, history]);
 
   let dispatch = useDispatch();
   const handleSubmit = async (e) => {
