@@ -6,8 +6,7 @@ import { MailOutlined, GoogleOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { createOrUpdateUser } from '../../helpers/auth';
-
+import { createOrUpdateUser } from "../../helpers/auth";
 
 const Login = ({ history }) => {
   const [email, setEmail] = useState("");
@@ -15,6 +14,7 @@ const Login = ({ history }) => {
   const [loading, setLoading] = useState(false);
 
   const { user } = useSelector((state) => ({ ...state }));
+
   useEffect(() => {
     if (user && user.token) history.push("/");
   }, [user]);
@@ -26,7 +26,9 @@ const Login = ({ history }) => {
 
     try {
       const result = await auth.signInWithEmailAndPassword(email, password);
-      //   console.log(result);
+
+      console.log(result);
+
       const { user } = result;
       const idTokenResult = await user.getIdTokenResult();
 
@@ -59,8 +61,12 @@ const Login = ({ history }) => {
     auth
       .signInWithPopup(googleAuthProvider)
       .then(async (result) => {
+
+        console.log(user);
+
         const { user } = result;
         const idTokenResult = await user.getIdTokenResult();
+        
         createOrUpdateUser(idTokenResult.token)
           .then((res) => {
             console.log(res);

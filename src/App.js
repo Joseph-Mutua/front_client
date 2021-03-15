@@ -12,7 +12,7 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 
 import { auth } from "./firebase";
 import { useDispatch } from "react-redux";
-
+import { currentUser } from "./helpers/auth";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -23,13 +23,23 @@ const App = () => {
       if (user) {
         const idTokenResult = await user.getIdTokenResult();
 
-        dispatch({
-          type: "LOGGED_IN_USER",
-          payload: {
-            email: user.email,
-            token: idTokenResult.token,
-          },
-        });
+        currentUser(idTokenResult.token)
+          .then((res) => {
+            console.log(res);
+            dispatch({
+              type: "LOGGED_IN_USER",
+              payload: {
+                name: res.data.name,
+                email: res.data.email,
+                token: idTokenResult.token,
+                role: res.data.role,
+                _id: res.data._id,
+              },
+            });
+          })
+          .catch((err) => {
+            console.log(err.message);
+          });
       }
     });
 
@@ -53,7 +63,7 @@ const App = () => {
           path="/register/complete"
           component={RegistrationCompletion}
         />
-        <Route exact path="/forgot/password" component={ForgotPassword}/>
+        <Route exact path="/forgot/password" component={ForgotPassword} />
       </Switch>
     </>
   );
