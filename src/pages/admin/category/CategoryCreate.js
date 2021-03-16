@@ -7,6 +7,8 @@ import {
   getCategories,
   removeCategory,
 } from "../../../helpers/category";
+import { Link } from "react-router-dom";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 
 const CategoryCreate = () => {
   const [name, setName] = useState("");
@@ -34,12 +36,30 @@ const CategoryCreate = () => {
         setLoading(false);
         setName("");
         toast.success(`${res.data.name} is created`);
+        loadCategories();
       })
       .catch((err) => {
         console.log(err);
         setLoading(false);
         if (err.response.status === 400) toast.error(err.response.data);
       });
+  };
+
+  const handleRemove = async (slug) => {
+    if (window.confirm(`Are you sure you want to Category ${slug} ?`)) {
+      removeCategory(slug, user.token)
+        .then((res) => {
+          setLoading(false);
+          toast.error(`${res.data.name} deleted`);
+          loadCategories();
+        })
+        .catch((err) => {
+          if (err.response.status === 400) {
+            setLoading(false);
+            toast.error(err.response.data);
+          }
+        });
+    }
   };
 
   const categoryForm = () => (
@@ -78,7 +98,20 @@ const CategoryCreate = () => {
           <hr />
 
           {categories.map((c) => (
-            <div key={c._id}>{c.name}</div>
+            <div key={c._id} className="alert alert-secondary">
+              {c.name}{" "}
+              <span
+                onClick={() => handleRemove(c.slug)}
+                className="btn btn-sm float-right"
+              >
+                <DeleteOutlined className="text-danger" />
+              </span>
+              <Link to={`/admin/category/${c.slug}`}>
+                <span className="btn btn-sm float-right">
+                  <EditOutlined className="text-primary" />
+                </span>
+              </Link>
+            </div>
           ))}
         </div>
       </div>
