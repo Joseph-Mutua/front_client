@@ -11,11 +11,13 @@ import { Link } from "react-router-dom";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 
 const CategoryCreate = () => {
+  const { user } = useSelector((state) => ({ ...state }));
+  
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
 
-  const { user } = useSelector((state) => ({ ...state }));
+  
 
   useEffect(() => {
     loadCategories();
