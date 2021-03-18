@@ -6,7 +6,7 @@ import {
   createCategory,
   getCategories,
   removeCategory,
-} from "../../../helpers/category";
+} from "../../../functions/category";
 import { Link } from "react-router-dom";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CategoryForm from "../../../components/forms/CategoryForm";
