@@ -21,7 +21,7 @@ export const updateSubCategory = async (slug, subcategory, authtoken) =>
   });
 
 export const createSubCategory = async (subcategory, authtoken) =>
-  await axios.post(`${process.env.REACT_APP_API}/subcategory`, category, {
+  await axios.post(`${process.env.REACT_APP_API}/subcategory`, subcategory, {
     headers: {
       authtoken,
     },
