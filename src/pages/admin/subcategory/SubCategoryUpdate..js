@@ -4,33 +4,36 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { getCategories } from "../../../functions/category";
 import {
-  createSubCategory,
-  getSubCategories,
-  removeSubCategory,
+    updateSubCategory,
+  getSubCategory,
 } from "../../../functions/subcategory";
 import { Link } from "react-router-dom";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CategoryForm from "../../../components/forms/CategoryForm";
 import LocalSearch from "../../../components/forms/LocalSearch";
 
-const SubCategoryCreate = () => {
+const SubCategoryUpdate = ({ match, history }) => {
   const { user } = useSelector((state) => ({ ...state }));
 
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
-  const [category, setCategory] = useState("")
-  const [subcategories, setsubcategories] = useState([]);
+  const [parent, setParent] = useState("");
 
-  //Searching/Filtering
-  const [keyword, setKeyword] = useState("");
 
   useEffect(() => {
     loadCategories();
+    loadSubCategory();
   }, []);
 
   const loadCategories = () =>
     getCategories().then((cat) => setCategories(cat.data));
+
+  const loadSubCategory = () =>
+    getSubCategory(match.params.slug).then((cat) => {
+      setName(cat.data);
+      setParent(cat.data.parent);
+    });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -38,12 +41,13 @@ const SubCategoryCreate = () => {
 
     setLoading(true);
 
-    createSubCategory({ name, parent: category }, user.token)
+    updateSubCategory(match.params.slug, { name, parent}, user.token)
       .then((res) => {
         console.log(res);
         setLoading(false);
         setName("");
         toast.success(`${res.data.name} is created`);
+        history.push("/admin/subcategory")
       })
       .catch((err) => {
         console.log(err);
@@ -51,26 +55,7 @@ const SubCategoryCreate = () => {
         if (err.response.status === 400) toast.error(err.response.data);
       });
   };
-
-  const handleRemove = async (slug) => {
-    if (window.confirm(`Are you sure you want to remove Subcategory ${slug} ?`)) {
-      removeSubCategory(slug, user.token)
-        .then((res) => {
-          setLoading(false);
-          toast.error(`${res.data.name} deleted`);
-        })
-        .catch((err) => {
-          if (err.response.status === 400) {
-            setLoading(false);
-            toast.error(err.response.data);
-          }
-        });
-    }
-  };
-
-  //Step 4
-  const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword);
-
+ 
   return (
     <div className="container-fluid">
       <div className="row">
@@ -81,7 +66,7 @@ const SubCategoryCreate = () => {
           {loading ? (
             <h4 className="text-danger">Loading...</h4>
           ) : (
-            <h4 className="text-center">Create Subcategory</h4>
+            <h4 className="text-center">Update Subcategory</h4>
           )}
 
           <div className="form-group">
@@ -89,20 +74,19 @@ const SubCategoryCreate = () => {
             <select
               name="category"
               className="form-control"
-              onChange={(e) => setCategory(e.target.value)}
+              onChange={(e) => setParent(e.target.value)}
             >
-
               <option>Please select</option>
               {categories.length > 0 &&
                 categories.map((cat) => (
-                  <option key={cat._id} value={cat._id}>
+                  <option key={cat._id} value={cat._id} selected={cat._id === parent}>
                     {cat.name}
                   </option>
                 ))}
             </select>
           </div>
-
-          {JSON.stringify(category)}
+{/* 
+          {JSON.stringify(parent)} */}
 
           <CategoryForm
             handleSubmit={handleSubmit}
@@ -110,9 +94,9 @@ const SubCategoryCreate = () => {
             setName={setName}
           />
 
-          <LocalSearch keyword={keyword} setKeyword={setKeyword} />
+          {/* <LocalSearch keyword={keyword} setKeyword={setKeyword} /> */}
 
-          {categories.filter(searched(keyword)).map((c) => (
+          {/* {categories.filter(searched(keyword)).map((c) => (
             <div key={c._id} className="alert alert-secondary">
               {c.name}{" "}
               <span
@@ -127,11 +111,11 @@ const SubCategoryCreate = () => {
                 </span>
               </Link>
             </div>
-          ))}
+          ))} */}
         </div>
       </div>
     </div>
   );
 };
 
-export default SubCategoryCreate;
+export default SubCategoryUpdate;

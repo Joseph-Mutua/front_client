@@ -11,22 +11,18 @@ import RegistrationCompletion from "./pages/auth/RegistrationCompletion";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import History from "./pages/user/History";
 import UserRoute from "./components/routes/UserRoute";
-import AdminRoute from "./components/routes/AdminRoute"
+import AdminRoute from "./components/routes/AdminRoute";
 import Password from "./pages/user/Password";
 import Wishlist from "./pages/user/Wishlist";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import CategoryCreate from "./pages/admin/category/CategoryCreate";
 import CategoryUpdate from "./pages/admin/category/CategoryUpdate";
-import SubCategoryCreate from './pages/admin/subcategory/SubCategoryCreate';
+import SubCategoryCreate from "./pages/admin/subcategory/SubCategoryCreate";
+import SubCategoryUpdate from "./pages/admin/subcategory/SubCategoryUpdate.";
 
 import { auth } from "./firebase";
 import { useDispatch } from "react-redux";
 import { currentUser } from "./functions/auth";
-
-
-
-
-
 
 const App = () => {
   const dispatch = useDispatch();
@@ -90,7 +86,16 @@ const App = () => {
           component={CategoryUpdate}
         />
 
-        <AdminRoute exact path="/admin/subcategory" component={SubCategoryCreate} />
+        <AdminRoute
+          exact
+          path="/admin/subcategory"
+          component={SubCategoryCreate}
+        />
+        <AdminRoute
+          exact
+          path="/admin/subcategory/:slug"
+          component={SubCategoryUpdate}
+        />
       </Switch>
     </>
   );
