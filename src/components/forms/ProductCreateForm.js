@@ -1,6 +1,17 @@
-import React from "react"
+import React from "react";
+import { Select } from "antd";
 
-const ProductCreateForm = ({handleSubmit, handleChange, values, handleCategoryChange}) => {
+const { Option } = Select;
+
+const ProductCreateForm = ({
+  handleSubmit,
+  handleChange,
+  values,
+  setValues,
+  handleCategoryChange,
+  subOptions,
+  showSubs,
+}) => {
   //Destructure values
   const {
     title,
@@ -15,6 +26,7 @@ const ProductCreateForm = ({handleSubmit, handleChange, values, handleCategoryCh
     colors,
     brands,
     color,
+
     brand,
   } = values;
 
@@ -128,9 +140,24 @@ const ProductCreateForm = ({handleSubmit, handleChange, values, handleCategoryCh
         </select>
       </div>
 
+      <div>
+        <label>Sub Categories</label>
+        <Select
+          mode="multiple"
+          style={{ width: "100%" }}
+          placeholder="Please Select"
+          value={subcategories}
+          
+          onChange={value => setValues({...values, subcategories: value})}
+        >
+          <option value="">Option one</option>
+          <option value="">Option Two</option>
+        </Select>
+      </div>
+
       <button className="btn btn-outline-info">Save</button>
     </form>
   );
-}
+};
 
 export default ProductCreateForm;

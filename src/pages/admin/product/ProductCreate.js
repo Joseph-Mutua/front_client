@@ -26,7 +26,7 @@ const initialState = {
 const ProductCreate = () => {
   const [values, setValues] = useState(initialState);
   const [subOptions, setSubOptions] = useState([]);
-
+  const [showSubs, setShowSubs] = useState(false);
   //Redux
   const { user } = useSelector((state) => ({ ...state }));
   useEffect(() => {
@@ -59,12 +59,13 @@ const ProductCreate = () => {
 
   const handleCategoryChange = (e) => {
     e.preventDefault();
+
     setValues({ ...values, [e.target.name]: e.target.value });
     console.log("CLICKED CATEGORY", e.target.value);
     getSubCategories(e.target.value).then((res) => {
-      console.log("SUBCATEGORIES ON CATEGORY CLICK", res);
+      console.log("SUBCATEGORIES ON CATEGORY CLICK", res.data);
       setSubOptions(res.data);
-    });
+    }).catch(err => console.log(err));
   };
 
   return (
@@ -82,6 +83,9 @@ const ProductCreate = () => {
             handleChange={handleChange}
             handleCategoryChange={handleCategoryChange}
             values={values}
+            setValues={setValues}
+            subOptions={subOptions}
+            showSubs={showSubs}
           />
         </div>
       </div>
