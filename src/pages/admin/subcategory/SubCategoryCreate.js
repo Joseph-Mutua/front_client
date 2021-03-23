@@ -102,32 +102,12 @@ const SubCategoryCreate = () => {
             </select>
           </div>
 
-          {JSON.stringify(category)}
-
           <CategoryForm
             handleSubmit={handleSubmit}
             name={name}
             setName={setName}
           />
 
-          <LocalSearch keyword={keyword} setKeyword={setKeyword} />
-
-          {categories.filter(searched(keyword)).map((c) => (
-            <div key={c._id} className="alert alert-secondary">
-              {c.name}{" "}
-              <span
-                onClick={() => handleRemove(c.slug)}
-                className="btn btn-sm float-right"
-              >
-                <DeleteOutlined className="text-danger" />
-              </span>
-              <Link to={`/admin/category/${c.slug}`}>
-                <span className="btn btn-sm float-right">
-                  <EditOutlined className="text-primary" />
-                </span>
-              </Link>
-            </div>
-          ))}
         </div>
       </div>
     </div>
