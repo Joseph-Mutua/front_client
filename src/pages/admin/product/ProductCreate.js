@@ -8,7 +8,7 @@ const initialState = {
   title: "",
   description: "",
   price: "",
-  categoris: [],
+  categories: [],
   category: "",
   subcategories: [],
   shipping: "",
@@ -22,6 +22,9 @@ const initialState = {
 
 const ProductCreate = () => {
   const [values, setValues] = useState(initialState);
+
+  //Redux
+  const { user } = useSelector((state) => ({ ...state }));
 
   //Destructure values
   const {
@@ -42,9 +45,23 @@ const ProductCreate = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    createProduct(values, user.token)
+      .then((res) => {
+        console.log(res);
+        toast.success("Product Created!");
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err.response.status === 400) toast.error(err.response.data);
+      });
   };
 
-  const handleChange = (e) => {};
+  const handleChange = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+
+    console.log(e.target.name, "---->", e.target.value);
+  };
 
   return (
     <div className="container-fluid">
@@ -109,7 +126,7 @@ const ProductCreate = () => {
                 type="number"
                 name="quantity"
                 className="form-control"
-                value={price}
+                value={quantity}
                 onChange={handleChange}
               />
             </div>
@@ -117,6 +134,7 @@ const ProductCreate = () => {
             <div className="form-group">
               <label>Color</label>
               <select
+                type="text"
                 name="color"
                 className="form-control"
                 onChange={handleChange}
@@ -133,6 +151,7 @@ const ProductCreate = () => {
             <div className="form-group">
               <label>Brand</label>
               <select
+                type="text"
                 name="brand"
                 className="form-control"
                 onChange={handleChange}
