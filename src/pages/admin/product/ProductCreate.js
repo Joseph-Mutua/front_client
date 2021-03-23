@@ -49,7 +49,9 @@ const ProductCreate = () => {
     createProduct(values, user.token)
       .then((res) => {
         console.log(res);
-        toast.success("Product Created!");
+
+        window.alert(`${res.data.title} is created`);
+        window.location.reload();
       })
       .catch((err) => {
         console.log(err);
@@ -70,7 +72,7 @@ const ProductCreate = () => {
           <AdminNav />
         </div>
         <div className="col-md-10">
-          <h4>Create Product</h4>
+          <h4 className="text-center">Create Product</h4>
           <hr />
 
           <form onSubmit={handleSubmit}>
