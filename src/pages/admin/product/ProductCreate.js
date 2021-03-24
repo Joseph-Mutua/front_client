@@ -28,6 +28,8 @@ const ProductCreate = () => {
   const [values, setValues] = useState(initialState);
   const [subOptions, setSubOptions] = useState([]);
   const [showSubs, setShowSubs] = useState(false);
+  const [loading, setLoading] = useState(false)
+
   //Redux
   const { user } = useSelector((state) => ({ ...state }));
   useEffect(() => {
@@ -92,6 +94,7 @@ const ProductCreate = () => {
             setValues={setValues}
             subOptions={subOptions}
             showSubs={showSubs}
+            setLoading={setLoading}
           />
 
 

@@ -13,6 +13,7 @@ const ProductCreateForm = ({
   handleCategoryChange,
   subOptions,
   showSubs,
+  setLoading,
 }) => {
   //Destructure values
   const {
@@ -165,7 +166,7 @@ const ProductCreateForm = ({
 
       <br />
       <div className="p-3">
-        <FileUpload />
+        <FileUpload values={values} setValues={setValues} setLoading={setLoading}/>
       </div>
 
       <br />
