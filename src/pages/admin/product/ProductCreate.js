@@ -6,6 +6,7 @@ import { createProduct } from "../../../functions/product";
 import { getCategories, getSubCategories } from "../../../functions/category";
 
 import ProductCreateForm from "../../../components/forms/ProductCreateForm";
+// import FileUpload from "../../../components/forms/FileUpload";
 
 const initialState = {
   title: "",
@@ -60,13 +61,17 @@ const ProductCreate = () => {
   const handleCategoryChange = (e) => {
     e.preventDefault();
 
-    setValues({ ...values, subcategories: [], [e.target.name]: e.target.value });
+    setValues({
+      ...values,
+      subcategories: [],
+      [e.target.name]: e.target.value,
+    });
     console.log("CLICKED CATEGORY", e.target.value);
     getSubCategories(e.target.value).then((res) => {
       console.log("SUBCATEGORIES ON CATEGORY CLICK", res.data);
       setSubOptions(res.data);
     });
-    setShowSubs(true)
+    setShowSubs(true);
   };
 
   return (
@@ -88,6 +93,8 @@ const ProductCreate = () => {
             subOptions={subOptions}
             showSubs={showSubs}
           />
+
+
         </div>
       </div>
     </div>

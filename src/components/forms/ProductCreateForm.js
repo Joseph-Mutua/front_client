@@ -1,6 +1,8 @@
 import React from "react";
 import { Select } from "antd";
 
+import FileUpload from './FileUpload';
+
 const { Option } = Select;
 
 const ProductCreateForm = ({
@@ -140,24 +142,31 @@ const ProductCreateForm = ({
         </select>
       </div>
 
-      { showSubs && <div>
-        <label>Sub Categories</label>
-        <Select
-          mode="multiple"
-          style={{ width: "100%" }}
-          placeholder="Please Select"
-          value={subcategories}
-          onChange={(value) => setValues({ ...values, subcategories: value })}
-        >
-          {subOptions.length &&
-            subOptions.map((s) => (
-              <Option key={s._id} value={s._id}>
-                {s.name}
-              </Option>
-            ))}
-          )
-        </Select>
-      </div>}
+      {showSubs && (
+        <div>
+          <label>Sub Categories</label>
+          <Select
+            mode="multiple"
+            style={{ width: "100%" }}
+            placeholder="Please Select"
+            value={subcategories}
+            onChange={(value) => setValues({ ...values, subcategories: value })}
+          >
+            {subOptions.length &&
+              subOptions.map((s) => (
+                <Option key={s._id} value={s._id}>
+                  {s.name}
+                </Option>
+              ))}
+            )
+          </Select>
+        </div>
+      )}
+
+      <br />
+      <div className="p-3">
+        <FileUpload />
+      </div>
 
       <br />
       <button className="btn btn-outline-info">Save</button>
