@@ -4,9 +4,9 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { createProduct } from "../../../functions/product";
 import { getCategories, getSubCategories } from "../../../functions/category";
-
 import ProductCreateForm from "../../../components/forms/ProductCreateForm";
-// import FileUpload from "../../../components/forms/FileUpload";
+
+import {LoadingOutlined} from "@ant-design/icons";
 
 const initialState = {
   title: "",
@@ -82,8 +82,14 @@ const ProductCreate = () => {
         <div className="col-md-2">
           <AdminNav />
         </div>
+        
         <div className="col-md-10">
-          <h4 className="text-center">Create Product</h4>
+          {loading ? (
+            <LoadingOutlined className="text-primary" />
+          ) : (
+            <h4 className="text-center">Create Product</h4>
+          )}
+
           <hr />
 
           {JSON.stringify(values.images)}
