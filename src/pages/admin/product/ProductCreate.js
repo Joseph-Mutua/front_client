@@ -28,7 +28,7 @@ const ProductCreate = () => {
   const [values, setValues] = useState(initialState);
   const [subOptions, setSubOptions] = useState([]);
   const [showSubs, setShowSubs] = useState(false);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   //Redux
   const { user } = useSelector((state) => ({ ...state }));
@@ -86,6 +86,8 @@ const ProductCreate = () => {
           <h4 className="text-center">Create Product</h4>
           <hr />
 
+          {JSON.stringify(values.images)}
+
           <ProductCreateForm
             handleSubmit={handleSubmit}
             handleChange={handleChange}
@@ -96,8 +98,6 @@ const ProductCreate = () => {
             showSubs={showSubs}
             setLoading={setLoading}
           />
-
-
         </div>
       </div>
     </div>
