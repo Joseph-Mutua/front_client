@@ -69,6 +69,7 @@ const ProductCreate = () => {
       [e.target.name]: e.target.value,
     });
     console.log("CLICKED CATEGORY", e.target.value);
+    
     getSubCategories(e.target.value).then((res) => {
       console.log("SUBCATEGORIES ON CATEGORY CLICK", res.data);
       setSubOptions(res.data);
@@ -92,7 +93,6 @@ const ProductCreate = () => {
 
           <hr />
 
-          {JSON.stringify(values.images)}
 
           <ProductCreateForm
             handleSubmit={handleSubmit}

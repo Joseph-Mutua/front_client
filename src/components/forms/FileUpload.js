@@ -60,20 +60,22 @@ const FileUpload = ({ values, setValues, setLoading }) => {
     //Set url to images [] in the parent componen-- ProductCreate
   };
 
-  const handleImageRemove = (public_idid) => {
+  const handleImageRemove = (public_id) => {
     setLoading(true);
     console.log("REMOVE IMAGE", public_id);
+
     axios.post(`${process.env.REACT_APP_API}/removeimage`, {public_id}, {
       headers: {
         authtoken: user ? user.token: "",
       }
     }).then((res) =>{
       setLoading(false);
+      
       const {images} = values;
       let filteredImages = images.filter((item) => {
         return item.public_id !== public_id;
       });
-      setValues({...values, images: filterdImages});
+      setValues({...values, images: filteredImages});
     }).catch((err) => {
       console.log(err);
       setLoading(false);
