@@ -68,8 +68,8 @@ const ProductUpdate = ({ match }) => {
             setValues={setValues}
           />
 
-          {/* {JSON.stringify(slug)}
-          {JSON.stringify(values)} */}
+          {/* {JSON.stringify(slug)} */}
+          {JSON.stringify(values)}
 
           <hr />
         </div>
