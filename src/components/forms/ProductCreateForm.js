@@ -29,7 +29,6 @@ const ProductCreateForm = ({
     colors,
     brands,
     color,
-
     brand,
   } = values;
 

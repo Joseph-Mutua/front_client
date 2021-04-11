@@ -29,7 +29,7 @@ const ProductUpdate = ({ match }) => {
   const [categories, setCategories] = useState([]);
   const [subOptions, setSubOptions] = useState([]);
   const [showSubs, setShowSubs] = useState(false);
-
+  const [arrayOfSubIds, setArrayOfSubIds] = useState([]);
 
   //Redux
   const { user } = useSelector((state) => ({ ...state }));
@@ -43,13 +43,30 @@ const ProductUpdate = ({ match }) => {
   const loadProduct = () => {
     getProduct(slug).then((p) => {
       console.log("Single Product", p);
+
+      //Load single product
       setValues({ ...values, ...p.data });
+
+      //Load product subcategories
+      getSubCategories(p.data.category._id).then((res) => {
+
+        //On first load show default subcategories
+        setSubOptions(res.data);
+      });
+
+      //Prepare array of subcategory ids to show as default values in subcategory select
+      let arr = [];
+      p.data.subcategories.map((s) => {
+        arr.push(s._id);
+      });
+
+      //Required for ant design select to work
+      setArrayOfSubIds(prev => arr)
     });
   };
 
   const loadCategories = () => {
-    getCategories().then((c) =>  setCategories(c.data));
-   
+    getCategories().then((c) => setCategories(c.data));
   };
 
   const handleCategoryChange = (e) => {
@@ -96,6 +113,8 @@ const ProductUpdate = ({ match }) => {
             subOptions={subOptions}
             showSubs={showSubs}
             categories={categories}
+            arrayOfSubIds={arrayOfSubIds}
+            setArrayOfSubIds={setArrayOfSubIds}
           />
 
           {JSON.stringify(values)}
