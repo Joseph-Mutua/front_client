@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import AdminNav from "../../../components/nav/AdminNav";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import { getProduct } from "../../../functions/product";
+import { getProduct, updateProduct } from "../../../functions/product";
 import { getCategories, getSubCategories } from "../../../functions/category";
 import FileUpload from "../../../components/forms/FileUpload";
 import { LoadingOutlined } from "@ant-design/icons";
@@ -23,8 +23,9 @@ const initialState = {
   brand: "",
 };
 
-const ProductUpdate = ({ match }) => {
+const ProductUpdate = ({ match, history }) => {
   //State
+  const [loading, setLoading] = useState(false);
   const [values, setValues] = useState(initialState);
   const [categories, setCategories] = useState([]);
   const [subOptions, setSubOptions] = useState([]);
@@ -49,7 +50,6 @@ const ProductUpdate = ({ match }) => {
 
       //Load product subcategories
       getSubCategories(p.data.category._id).then((res) => {
-
         //On first load show default subcategories
         setSubOptions(res.data);
       });
@@ -61,7 +61,7 @@ const ProductUpdate = ({ match }) => {
       });
 
       //Required for ant design select to work
-      setArrayOfSubIds(prev => arr)
+      setArrayOfSubIds((prev) => arr);
     });
   };
 
@@ -88,6 +88,22 @@ const ProductUpdate = ({ match }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
+
+    values.subcategories = arrayOfSubIds;
+    // values.category = selectedCategory ? selectedCategory : values.category;
+
+    updateProduct(slug, values, user.token)
+      .then((res) => {
+        setLoading(false);
+        toast.succcess(`${res.data.title} is updated`);
+        history.push("/admin/products");
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+        toast.error(err.response.data.err);
+      });
   };
 
   const handleChange = (e) => {
@@ -102,7 +118,11 @@ const ProductUpdate = ({ match }) => {
         </div>
 
         <div className="col-md-10">
-          <h4 className="text-center">Update Product</h4>
+          {loading ? (
+            <LoadingOutlined className="text-primary" />
+          ) : (
+            <h4 className="text-center">Update Product</h4>
+          )}
 
           <ProductUpdateForm
             handleSubmit={handleSubmit}

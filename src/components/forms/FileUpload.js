@@ -40,7 +40,7 @@ const FileUpload = ({ values, setValues, setLoading }) => {
               )
               .then((res) => {
                 console.log("IMAGE UPLOAD RESPONSE DATA", res);
-                setLoading(false);
+                // setLoading(false);
                 allUploadedFiles.push(res.data);
 
                 setValues({ ...values, images: allUploadedFiles });

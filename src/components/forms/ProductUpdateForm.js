@@ -15,8 +15,8 @@ const ProductUpdateForm = ({
   subOptions,
   showSubs,
   arrayOfSubIds,
-  setArrayOfSubIds
-  // setLoading,
+  setArrayOfSubIds,
+  setLoading,
 }) => {
   //Destructure values
   const {
@@ -168,13 +168,13 @@ const ProductUpdateForm = ({
      
 
       <br />
-      {/* <div className="p-3">
+      <div className="p-3">
         <FileUpload
           values={values}
           setValues={setValues}
-          setLoading={setLoading}
+          // setLoading={setLoading}
         />
-      </div> */}
+      </div>
 
       <br />
       <button className="btn btn-outline-info">Save</button>
