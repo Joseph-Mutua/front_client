@@ -1,13 +1,13 @@
 import React from "react";
 import { Card } from "antd";
-import laptop from "../../images/monitor.png"
-import {EditOutlined, DeleteOutlined} from "@ant-design/icons"
+import laptop from "../../images/monitor.png";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 
 const { Meta } = Card;
 
-const AdminProductCard = ({ product }) => {
+const AdminProductCard = ({ product, handleDelete }) => {
   //desctructure
-  const { title, description, images } = product;
+  const { title, description, images, slug } = product;
 
   return (
     <Card
@@ -19,10 +19,17 @@ const AdminProductCard = ({ product }) => {
         />
       }
       actions={[
-          <EditOutlined className="text-primary" />, <DeleteOutlined className="text-danger"/>
+        <EditOutlined className="text-primary" />,
+        <DeleteOutlined
+          className="text-danger"
+          onClick={() => handleDelete(slug)}
+        />,
       ]}
     >
-      <Meta title={title} description={`${description && description.substring(0, 40)}...`} />
+      <Meta
+        title={title}
+        description={`${description && description.substring(0, 40)}...`}
+      />
     </Card>
   );
 };
