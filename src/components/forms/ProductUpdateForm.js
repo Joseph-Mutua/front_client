@@ -9,10 +9,11 @@ const ProductUpdateForm = ({
   handleSubmit,
   handleChange,
   values,
+  categories,
   setValues,
-  // handleCategoryChange,
-  // subOptions,
-  // showSubs,
+  handleCategoryChange,
+  subOptions,
+  showSubs,
   // setLoading,
 }) => {
   //Destructure values
@@ -20,7 +21,6 @@ const ProductUpdateForm = ({
     title,
     description,
     price,
-    categories,
     category,
     subcategories,
     shipping,
@@ -29,7 +29,6 @@ const ProductUpdateForm = ({
     colors,
     brands,
     color,
-
     brand,
   } = values;
 
@@ -129,14 +128,14 @@ const ProductUpdateForm = ({
         </select>
       </div>
 
-      {/* <div className="form-group">
+      <div className="form-group">
         <label>Category</label>
         <select
           name="category"
           className="form-control"
           onChange={handleCategoryChange}
         >
-          <option>Please select</option>
+          <option> {category ? category.name : "Please Select"} </option>
           {categories.length > 0 &&
             categories.map((cat) => (
               <option key={cat._id} value={cat._id}>
@@ -144,7 +143,7 @@ const ProductUpdateForm = ({
               </option>
             ))}
         </select>
-      </div> */}
+      </div>
 
       {/* {showSubs && (
         <div>
