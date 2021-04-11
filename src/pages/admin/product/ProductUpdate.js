@@ -4,9 +4,9 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { getProduct } from "../../../functions/product";
 import { getCategories, getSubCategories } from "../../../functions/category";
-import ProductCreateForm from "../../../components/forms/ProductCreateForm";
-
+import FileUpload from "../../../components/forms/FileUpload";
 import { LoadingOutlined } from "@ant-design/icons";
+import ProductUpdateForm from "../../../components/forms/ProductUpdateForm";
 
 const initialState = {
   title: "",
@@ -43,6 +43,14 @@ const ProductUpdate = ({ match }) => {
     });
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  const handleChange = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -53,8 +61,15 @@ const ProductUpdate = ({ match }) => {
         <div className="col-md-10">
           <h4 className="text-center">Update Product</h4>
 
-          {JSON.stringify(slug)}
-          {JSON.stringify(values)}
+          <ProductUpdateForm
+            handleSubmit={handleSubmit}
+            handleChange={handleChange}
+            values={values}
+            setValues={setValues}
+          />
+
+          {/* {JSON.stringify(slug)}
+          {JSON.stringify(values)} */}
 
           <hr />
         </div>
