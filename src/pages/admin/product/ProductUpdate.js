@@ -8,7 +8,7 @@ import ProductCreateForm from "../../../components/forms/ProductCreateForm";
 
 import { LoadingOutlined } from "@ant-design/icons";
 
-const ProductUpdate = () => {
+const ProductUpdate = ({ match }) => {
   //Redux
   const { user } = useSelector((state) => ({ ...state }));
 
@@ -22,9 +22,9 @@ const ProductUpdate = () => {
         <div className="col-md-10">
           <h4 className="text-center">Update Product</h4>
 
+          {JSON.stringify(match.params.slug)}
+          
           <hr />
-
-
         </div>
       </div>
     </div>
