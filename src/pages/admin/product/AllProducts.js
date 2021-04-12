@@ -3,7 +3,7 @@ import AdminNav from "../../../components/nav/AdminNav";
 import { getProductsByCount } from "../../../functions/product";
 import AdminProductCard from "../../../components/cards/AdminProductCard";
 import { deleteProduct } from "../../../functions/product";
-import {useSelector} from "react-redux"
+import {useSelector} from "react-redux";
 import { toast } from 'react-toastify';
 
 const AllProducts = () => {

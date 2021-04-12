@@ -96,13 +96,13 @@ const ProductUpdate = ({ match, history }) => {
     updateProduct(slug, values, user.token)
       .then((res) => {
         setLoading(false);
-        toast.succcess(`${res.data.title} is updated`);
+        toast.success(`${res.data.title} is updated`);
         history.push("/admin/products");
       })
       .catch((err) => {
         console.log(err);
         setLoading(false);
-        toast.error(err.response.data.err);
+        // toast.error(err.response.data.err);
       });
   };
 
