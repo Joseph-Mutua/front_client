@@ -1,5 +1,5 @@
 import React from "react";
-import { Card } from "antd";
+import { Card} from "antd";
 import { EyeOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import laptop from "../../images/monitor.png";
 import { Link } from "react-router-dom";
