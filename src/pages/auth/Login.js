@@ -14,17 +14,28 @@ const Login = ({ history }) => {
 
   const { user } = useSelector((state) => ({ ...state }));
 
-  const roleBasedRedirect = (res) => {
-    if (res.data.role === "admin") {
-      history.push("/admin/dashboard");
+  useEffect(() => {
+    let intended = history.location.state;
+    if (intended) {
+      return;
     } else {
-      history.push("/user/history");
+      if (user && user.token) history.push("/");
+    }
+  }, [user, history]);
+
+  const roleBasedRedirect = (res) => {
+    //Check if intended
+    let intended = history.location.state;
+    if (intended) {
+      history.push(intended.from);
+    } else {
+      if (res.data.role === "admin") {
+        history.push("/admin/dashboard");
+      } else {
+        history.push("/user/history");
+      }
     }
   };
-
-  useEffect(() => {
-    if (user && user.token) history.push("/");
-  }, [user, history]);
 
   let dispatch = useDispatch();
   const handleSubmit = async (e) => {
@@ -71,7 +82,7 @@ const Login = ({ history }) => {
       .signInWithPopup(googleAuthProvider)
       .then(async (result) => {
         const { user } = result;
-          console.log(user);
+        console.log(user);
         const idTokenResult = await user.getIdTokenResult();
 
         createOrUpdateUser(idTokenResult.token)
