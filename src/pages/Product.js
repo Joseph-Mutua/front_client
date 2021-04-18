@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { getProduct, productStar } from "../functions/product";
+import { getProduct, productStar, getRelated } from "../functions/product";
 import SingleProduct from "../components/cards/SingleProduct";
 import { useSelector } from "react-redux";
-
+import ProductCard from "../components/cards/ProductCard";
 
 const Product = ({ match }) => {
   const [product, setProduct] = useState({});
   const [star, setStar] = useState(0);
+  const [related, setRelated] = useState([]);
 
   const { user } = useSelector((state) => ({ ...state }));
 
@@ -14,21 +15,28 @@ const Product = ({ match }) => {
 
   useEffect(() => {
     loadSingleProduct();
-
   }, [slug]);
 
   useEffect(() => {
-    if(product.ratings && user) {
-        let existingRatingObject = product.ratings.find(
-          (r) => r.postedBy.toString() === user._id.toString()
-        );
+    if (product.ratings && user) {
+      let existingRatingObject = product.ratings.find(
+        (r) => r.postedBy.toString() === user._id.toString()
+      );
 
-        existingRatingObject && setStar(existingRatingObject.star) //Current Users star
+      existingRatingObject && setStar(existingRatingObject.star); //Current Users star
     }
-  })
+  });
 
-  const loadSingleProduct = () =>
-    getProduct(slug).then((res) => setProduct(res.data));
+  const loadSingleProduct = () => {
+    getProduct(slug).then((res) => {
+      setProduct(res.data);
+      //Get Related Products
+
+      getRelated(res.data._id).then((res) => {
+        setRelated(res.data);
+      });
+    });
+  };
 
   const onStarClick = (newRating, name) => {
     setStar(newRating);
@@ -59,6 +67,17 @@ const Product = ({ match }) => {
           <h4>Related Products</h4>
           <hr />
         </div>
+      </div>
+
+      <div className="row pb-5">
+        {related.length > 0
+          ? related.map((r) => (
+              <div className="col-md-4" key={r._id}>
+                <ProductCard product={r} />
+                
+              </div>
+            ))
+          : <h1 className="text-center col">No Products Found</h1>}
       </div>
     </div>
   );
