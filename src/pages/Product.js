@@ -3,6 +3,7 @@ import { getProduct, productStar } from "../functions/product";
 import SingleProduct from "../components/cards/SingleProduct";
 import { useSelector } from "react-redux";
 
+
 const Product = ({ match }) => {
   const [product, setProduct] = useState({});
   const [star, setStar] = useState(0);
