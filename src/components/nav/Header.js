@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import firebase from "firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import Search from "../forms/Search"
 
 const { SubMenu, Item } = Menu;
 
@@ -71,12 +72,13 @@ const Header = () => {
               <Link to="/admin/dashboard">Dashboard</Link>
             </Item>
           )}
-          <Item key="setting:2">Option 2</Item>
           <Item icon={<LogoutOutlined />} onClick={logout}>
             Logout
           </Item>
         </SubMenu>
       )}
+
+      <span className="float-right p-1"><Search/></span>
     </Menu>
   );
 };
