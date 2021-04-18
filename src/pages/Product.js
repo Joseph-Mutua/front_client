@@ -13,18 +13,33 @@ const Product = ({ match }) => {
 
   useEffect(() => {
     loadSingleProduct();
+
   }, [slug]);
+
+  useEffect(() => {
+    if(product.ratings && user) {
+        let existingRatingObject = product.ratings.find(
+          (r) => r.postedBy.toString() === user._id.toString()
+        );
+
+        existingRatingObject && setStar(existingRatingObject.star) //Current Users star
+    }
+  })
 
   const loadSingleProduct = () =>
     getProduct(slug).then((res) => setProduct(res.data));
 
   const onStarClick = (newRating, name) => {
     setStar(newRating);
-    productStar(name, star, user.token).then((res) => {
-      console.log("rating clicked", res.data);
-      
-      loadSingleProduct(); //To show updated rating in real time
-    });
+    productStar(name, newRating, user.token)
+      .then((res) => {
+        console.log("rating clicked", res.data);
+
+        loadSingleProduct(); //To show updated rating in real time
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
