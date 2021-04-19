@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { getProductsByCount } from "../functions/product";
+import {
+  getProductsByCount,
+  fetchProductsByFilter,
+} from "../functions/product";
 import { useSelector, useDispatch } from "react-redux";
 import ProductCard from "../components/cards/ProductCard";
 
@@ -7,15 +10,35 @@ const Shop = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  let { search } = useSelector((state) => ({ ...state }));
+
+  const { text } = search;
+
   useEffect(() => {
     loadAllProducts();
   }, []);
 
+  //Load default products on page load
   const loadAllProducts = () => {
     setLoading(true);
     getProductsByCount(12).then((p) => {
       setProducts(p.data);
       setLoading(false);
+    });
+  };
+
+  //Load products on user search input
+  useEffect(() => {
+    const delayed = setTimeout(() => {
+      fetchProducts({ query: text });
+    }, 300);
+
+    return () => clearTimeout(delayed);
+  }, [text]);
+
+  const fetchProducts = (arg) => {
+    fetchProductsByFilter(arg).then((res) => {
+      setProducts(res.data);
     });
   };
 
@@ -27,7 +50,7 @@ const Shop = () => {
           {loading ? (
             <h4 className="text-danger text-center">Loading...</h4>
           ) : (
-            <h4 className="text-danger text-center">Products</h4>
+            <h4 className="text-info text-center">Products</h4>
           )}
 
           {products.length < 1 && (
@@ -37,7 +60,9 @@ const Shop = () => {
           <div className="row pb-5">
             {" "}
             {products.map((p) => (
-              <div key={p._id} className="col-md-4 mt-3"><ProductCard product={p}/></div>
+              <div key={p._id} className="col-md-4 mt-3">
+                <ProductCard product={p} />
+              </div>
             ))}{" "}
           </div>
         </div>
