@@ -43,6 +43,7 @@ const Shop = () => {
     "Blue",
   ]);
   const [color, setColor] = useState("");
+  const [shipping, setShipping] = useState("");
 
   let dispatch = useDispatch();
   let { search } = useSelector((state) => ({ ...state }));
@@ -99,6 +100,8 @@ const Shop = () => {
     setStar("");
     setPrice(value);
     setColor("");
+   setShipping("");
+
     setTimeout(() => {
       setOk(!ok);
     }, 300);
@@ -134,6 +137,7 @@ const Shop = () => {
     setPrice([0, 0]);
     setStar("");
     setColor("");
+       setShipping("");
 
     let inTheState = [...categoryIds];
     let justChecked = e.target.value;
@@ -164,6 +168,7 @@ const Shop = () => {
     setSubcategory("");
     setColor("");
     setStar(num);
+       setShipping("");
 
     fetchProducts({ stars: num });
   };
@@ -204,6 +209,7 @@ const Shop = () => {
     setCategoryIds([]);
     setColor("");
     setStar("");
+    setShipping("");
 
     fetchProducts({ subcategory });
   };
@@ -234,6 +240,7 @@ const Shop = () => {
     setCategoryIds([]);
     setStar("");
     setColor("");
+    setShipping("");
 
     setBrand(e.target.value);
 
@@ -266,10 +273,53 @@ const Shop = () => {
     setCategoryIds([]);
     setStar("");
     setBrand("");
+    setShipping("");
 
     setColor(e.target.value);
 
     fetchProducts({ color: e.target.value });
+  };
+
+  // 9. Show products based on shipping
+  const showShipping = () => (
+    <>
+      <Checkbox
+        className="pb-2 pl-4 pr-4"
+        onChange={handleShippingChange}
+        value="Yes"
+        checked={shipping === "Yes"}
+      >
+        Yes
+      </Checkbox>
+
+      <Checkbox
+        className="pb-2 pl-4 pr-4"
+        onChange={handleShippingChange}
+        value="No"
+        checked={shipping === "No"}
+      >
+        No
+      </Checkbox>
+    </>
+  );
+
+  const handleShippingChange = (e) => {
+    dispatch({
+      type: "SEARCH_QUERY",
+      payload: { text: "" },
+    });
+
+    //Reset other Filters
+    setSubcategory("");
+    setPrice([0, 0]);
+    setCategoryIds([]);
+    setStar("");
+    setBrand("");
+    setColor("");
+
+    setShipping(e.target.value);
+
+    fetchProducts({ shipping: e.target.value });
   };
 
   return (
@@ -279,7 +329,10 @@ const Shop = () => {
           <h4>Search / Filter</h4>
           <hr />
 
-          <Menu defaultOpenKeys={["1", "2", "3", "4", "5", "6"]} mode="inline">
+          <Menu
+            defaultOpenKeys={["1", "2", "3", "4", "5", "6", "7"]}
+            mode="inline"
+          >
             {/* Price */}
             <SubMenu
               key="1"
@@ -372,6 +425,21 @@ const Shop = () => {
             >
               <div style={{ marginTop: "-10px" }} className="pl-4 pr-4">
                 {showColors()}
+              </div>
+            </SubMenu>
+
+            {/* Shipping */}
+            <SubMenu
+              key="7"
+              title={
+                <span className="h6">
+                  <DownSquareOutlined />
+                  Shipping
+                </span>
+              }
+            >
+              <div style={{ marginTop: "-10px" }} >
+                {showShipping()}
               </div>
             </SubMenu>
           </Menu>
