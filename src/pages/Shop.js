@@ -35,6 +35,14 @@ const Shop = () => {
     "OnePlus",
   ]);
   const [brand, setBrand] = useState("");
+  const [colors, setColors] = useState([
+    "Black",
+    "Brown",
+    "Silver",
+    "White",
+    "Blue",
+  ]);
+  const [color, setColor] = useState("");
 
   let dispatch = useDispatch();
   let { search } = useSelector((state) => ({ ...state }));
@@ -90,6 +98,7 @@ const Shop = () => {
     setSubcategory("");
     setStar("");
     setPrice(value);
+    setColor("");
     setTimeout(() => {
       setOk(!ok);
     }, 300);
@@ -121,9 +130,10 @@ const Shop = () => {
     });
 
     //Reset other Filters
-    setBrand("")
+    setBrand("");
     setPrice([0, 0]);
     setStar("");
+    setColor("");
 
     let inTheState = [...categoryIds];
     let justChecked = e.target.value;
@@ -148,10 +158,11 @@ const Shop = () => {
     });
 
     //Reset other Filters
-    setBrand("")
+    setBrand("");
     setPrice([0, 0]);
     setCategoryIds([]);
     setSubcategory("");
+    setColor("");
     setStar(num);
 
     fetchProducts({ stars: num });
@@ -188,9 +199,10 @@ const Shop = () => {
     });
 
     //Reset other Filters
-    setBrand("")
+    setBrand("");
     setPrice([0, 0]);
     setCategoryIds([]);
+    setColor("");
     setStar("");
 
     fetchProducts({ subcategory });
@@ -221,10 +233,43 @@ const Shop = () => {
     setPrice([0, 0]);
     setCategoryIds([]);
     setStar("");
+    setColor("");
 
     setBrand(e.target.value);
 
-    fetchProducts({ brand: e.target.value});
+    fetchProducts({ brand: e.target.value });
+  };
+
+  //8. Show products based on Color
+  const showColors = () =>
+    colors.map((c) => (
+      <Radio
+        value={c}
+        name={c}
+        checked={c === color}
+        onChange={handleColor}
+        className="pb-1 pl-4 pr-4"
+      >
+        {c}
+      </Radio>
+    ));
+
+  const handleColor = (e) => {
+    dispatch({
+      type: "SEARCH_QUERY",
+      payload: { text: "" },
+    });
+
+    //Reset other Filters
+    setSubcategory("");
+    setPrice([0, 0]);
+    setCategoryIds([]);
+    setStar("");
+    setBrand("");
+
+    setColor(e.target.value);
+
+    fetchProducts({ color: e.target.value });
   };
 
   return (
@@ -312,6 +357,21 @@ const Shop = () => {
             >
               <div style={{ marginTop: "-10px" }} className="pl-4 pr-4">
                 {showBrands()}
+              </div>
+            </SubMenu>
+
+            {/* Colors */}
+            <SubMenu
+              key="6"
+              title={
+                <span className="h6">
+                  <DownSquareOutlined />
+                  Colors
+                </span>
+              }
+            >
+              <div style={{ marginTop: "-10px" }} className="pl-4 pr-4">
+                {showColors()}
               </div>
             </SubMenu>
           </Menu>
