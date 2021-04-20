@@ -5,11 +5,17 @@ import laptop from "../../images/monitor.png";
 import { Link } from "react-router-dom";
 import { showAverage } from "../../functions/rating";
 import _ from "lodash";
+import { useSelector, useDispatch } from "react-redux";
 
 const { Meta } = Card;
 
 const ProductCard = ({ product }) => {
   const { title, description, images, slug, price } = product;
+
+  //Redux
+  const { user, cart } = useSelector((state) => ({ ...state }));
+
+  const dispatch = useDispatch();
 
   const [tooltip, setTooltip] = useState("Click to Add");
 
@@ -38,6 +44,13 @@ const ProductCard = ({ product }) => {
 
       //Show tooltip
       setTooltip("Added");
+
+      //Add to Redux State
+      dispatch({
+        type: "ADD_TO_CART",
+        payload: unique,
+      });
+
     }
   };
 
