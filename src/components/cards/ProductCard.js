@@ -51,6 +51,11 @@ const ProductCard = ({ product }) => {
         payload: unique,
       });
 
+      //Show Cart items inside drawer
+      dispatch({
+        type: "SET_VISIBLE",
+        payload: true,
+      });
     }
   };
 
