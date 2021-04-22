@@ -7,6 +7,7 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import Home from "./pages/Home";
 import Header from "./components/nav/Header";
+import SideDrawer from "./components/drawer/SideDrawer";
 import RegistrationCompletion from "./pages/auth/RegistrationCompletion";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import History from "./pages/user/History";
@@ -27,6 +28,7 @@ import CategoryHome from "./pages/category/CategoryHome";
 import SubCategoryHome from "./pages/subcategory/SubCategoryHome";
 import Shop from "./pages/Shop";
 import Cart from "./pages/Cart";
+
 
 import { auth } from "./firebase";
 import { useDispatch } from "react-redux";
@@ -69,6 +71,7 @@ const App = () => {
     <>
       <div>
         <Header />
+        <SideDrawer/>
         <ToastContainer />
       </div>
 
