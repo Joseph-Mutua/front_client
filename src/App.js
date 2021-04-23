@@ -28,6 +28,7 @@ import CategoryHome from "./pages/category/CategoryHome";
 import SubCategoryHome from "./pages/subcategory/SubCategoryHome";
 import Shop from "./pages/Shop";
 import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout"
 
 
 import { auth } from "./firebase";
@@ -71,7 +72,7 @@ const App = () => {
     <>
       <div>
         <Header />
-        <SideDrawer/>
+        <SideDrawer />
         <ToastContainer />
       </div>
 
@@ -89,6 +90,8 @@ const App = () => {
         <UserRoute exact path="/user/history" component={History} />
         <UserRoute exact path="/user/password" component={Password} />
         <UserRoute exact path="/user/wishlist" component={Wishlist} />
+        <UserRoute exact path="/checkout" component={Checkout} />
+
         <AdminRoute exact path="/admin/dashboard" component={AdminDashboard} />
         <AdminRoute exact path="/admin/category" component={CategoryCreate} />
         <AdminRoute
