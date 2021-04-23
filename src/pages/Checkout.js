@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getUserCart, emptyCart } from "../functions/user";
+import { getUserCart, emptyCart, saveUserAddress } from "../functions/user";
 import { toast } from 'react-toastify';
 
 const Checkout = () => {
@@ -18,7 +18,9 @@ const Checkout = () => {
     });
   }, []);
 
-  const saveAddressToDb = () => {};
+  const saveAddressToDb = () => {
+      
+  };
 
   const handleEmptyCart = () => {
     //Remove from Local storage
@@ -83,7 +85,7 @@ const Checkout = () => {
           <button
             disabled={!products.length}
             onClick={handleEmptyCart}
-            className="btn btn-primary"
+            className="btn btn-primary text-danger"
           >
             Empty Cart
           </button>
