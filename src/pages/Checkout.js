@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-const Checkout = () => {
+const Checkout = ({ history }) => {
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
   const [address, setAddress] = useState("");
@@ -63,7 +63,7 @@ const Checkout = () => {
       setProducts([]);
       setTotal(0);
       setTotalAfterDiscount(0);
-      setCoupon("")
+      setCoupon("");
       toast.success("Cart is empty. Continue Shopping");
     });
   };
@@ -76,12 +76,21 @@ const Checkout = () => {
       if (res.data) {
         setTotalAfterDiscount(res.data);
 
-        //Push Total after discount to redux
+        //Update Redux coupon applied: true/false
+        dispatch({
+          type: "COUPON_APPLIED",
+          payload: true,
+        });
       }
       if (res.data.err) {
         setDiscountError(res.data.err);
 
         //Update Redux Coupon applied
+
+        dispatch({
+          type: "COUPON_APPLIED",
+          payload: false,
+        });
       }
     });
   };
@@ -167,6 +176,7 @@ const Checkout = () => {
           <button
             className="btn btn-primary"
             disabled={!addressSaved || !products.length}
+            onClick={() => history.push("/payment")}
           >
             Place Order
           </button>

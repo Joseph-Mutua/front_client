@@ -30,7 +30,7 @@ import Shop from "./pages/Shop";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import CreateCouponPage from "./pages/admin/coupon/CreateCouponPage";
-
+import Payment from "./pages/Payment";
 
 import { auth } from "./firebase";
 import { useDispatch } from "react-redux";
@@ -92,6 +92,7 @@ const App = () => {
         <UserRoute exact path="/user/password" component={Password} />
         <UserRoute exact path="/user/wishlist" component={Wishlist} />
         <UserRoute exact path="/checkout" component={Checkout} />
+        <UserRoute exact path="/payment" component={Payment} />
 
         <AdminRoute exact path="/admin/dashboard" component={AdminDashboard} />
         <AdminRoute exact path="/admin/category" component={CategoryCreate} />
@@ -120,11 +121,7 @@ const App = () => {
           component={ProductUpdate}
         />
 
-        <AdminRoute
-          exact
-          path="/admin/coupon"
-          component={CreateCouponPage}
-        />
+        <AdminRoute exact path="/admin/coupon" component={CreateCouponPage} />
 
         <Route exact path="/product/:slug" component={Product} />
         <Route exact path="/category/:slug" component={CategoryHome} />
