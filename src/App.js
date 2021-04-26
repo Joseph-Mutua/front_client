@@ -28,7 +28,8 @@ import CategoryHome from "./pages/category/CategoryHome";
 import SubCategoryHome from "./pages/subcategory/SubCategoryHome";
 import Shop from "./pages/Shop";
 import Cart from "./pages/Cart";
-import Checkout from "./pages/Checkout"
+import Checkout from "./pages/Checkout";
+import CreateCouponPage from "./pages/admin/coupon/CreateCouponPage";
 
 
 import { auth } from "./firebase";
@@ -117,6 +118,12 @@ const App = () => {
           exact
           path="/admin/product/:slug"
           component={ProductUpdate}
+        />
+
+        <AdminRoute
+          exact
+          path="/admin/coupon"
+          component={CreateCouponPage}
         />
 
         <Route exact path="/product/:slug" component={Product} />

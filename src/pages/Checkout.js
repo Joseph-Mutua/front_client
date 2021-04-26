@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserCart, emptyCart, saveUserAddress } from "../functions/user";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const Checkout = () => {
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
+  const [address, setAddress] = useState("");
+  const [addressSaved, setAddressSaved] = useState("");
 
   const dispatch = useDispatch();
   const { user } = useSelector((state) => ({ ...state }));
@@ -19,7 +23,15 @@ const Checkout = () => {
   }, []);
 
   const saveAddressToDb = () => {
-      
+    saveUserAddress(user.token, address).then((res) => {
+      if (res.data.ok) {
+        setAddressSaved(true);
+        console.log("ADRESS SAVED")
+        toast.success("Address Saved!");
+      }
+    }).catch((err) => {
+        console.log("ERROR SAVING ADRESS", err)
+    })
   };
 
   const handleEmptyCart = () => {
@@ -48,7 +60,7 @@ const Checkout = () => {
         <h4>Delivery Address</h4>
         <br />
         <br />
-        textarea
+        <ReactQuill theme="snow" value={address} onChange={setAddress} />
         <button className="btn btn-primary mt-2" onClick={saveAddressToDb}>
           Save
         </button>
@@ -79,7 +91,7 @@ const Checkout = () => {
 
         <div className="row">
           <div className="col-md-3"></div>
-          <button className="btn btn-primary">Place Order</button>
+          <button className="btn btn-primary" disabled={!addressSaved || !products.length}>Place Order</button>
 
           <div className="col-md-3"></div>
           <button
