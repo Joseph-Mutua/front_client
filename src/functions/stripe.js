@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export const createPaymentIntent = async (authtoken) => {
-  await axios.post(
+export const createPaymentIntent = (authtoken) =>
+  axios.post(
     `${process.env.REACT_APP_API}/create-payment-intent`,
     {},
     {
@@ -10,4 +10,3 @@ export const createPaymentIntent = async (authtoken) => {
       },
     }
   );
-};
