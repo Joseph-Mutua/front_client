@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { Card } from "antd";
 import { DollarOutlined, CheckOutlined } from "@ant-design/icons";
 import CreditCard from "../images/CreditCard.jpg";
+import { createOrder, emptyCart } from "../functions/user";
 
 const StripeCheckout = ({ history }) => {
   const dispatch = useDispatch();
@@ -55,6 +56,25 @@ const StripeCheckout = ({ history }) => {
     } else {
       //Here you get result after successful payment
       //Create order and save in database for admin to process
+      createOrder(payload, user.token).then((res) => {
+        if (res.data.ok) {
+          //Empty cart from localStorage
+          if (typeof window !== "undefined") localStorage.removeItem("cart");
+
+          //Empty cart from redux
+          dispatch({
+            type: "ADD_TO_CART",
+            payload: [],
+          });
+          //Reset coupon to false
+          dispatch({
+            type: "COUPON_APPLIED",
+            payload: false,
+          });
+          //Empty cart from Database
+          emptyCart(user.token);
+        }
+      });
       //Empty user cart from redux store and local storage
 
       console.log(JSON.stringify(payload, null, 4));
