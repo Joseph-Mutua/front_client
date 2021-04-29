@@ -6,9 +6,9 @@ import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import ShowPaymentInfo from "../../components/cards/ShowPaymentInfo";
 import { PDFDownloadLink } from "@react-pdf/renderer";
-import Invoice from "../components/order/Invoice";
+import Invoice from "../../components/order/Invoice";
 
-const History = () => {
+const History = ({order}) => {
   const [orders, setOrders] = useState([]);
 
   const { user } = useSelector((state) => ({ ...state }));
