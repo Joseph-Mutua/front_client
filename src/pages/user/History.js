@@ -11,13 +11,29 @@ const History = () => {
   const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
-    loadUserOrders()
-  }, [])
+    loadUserOrders();
+  }, []);
 
-  const loadOrders = () => getUserOrders(user.token).then((res) => {
-    console.log(JSON.stringify(res.data, null, 4));
-    setOrders(res.data)
-  })
+  const loadUserOrders = () =>
+    getUserOrders(user.token).then((res) => {
+      console.log(JSON.stringify(res.data, null, 4));
+      setOrders(res.data);
+    });
+
+  const showOrderInTable = (order) => <p>Each Order and its products</p>;
+
+  const showEachOrder = () =>
+    orders.map((order, i) => (
+      <div key={i} className="m-5 p-3 card">
+        <p>Show Payment Info</p>
+        {showOrderInTable(order)}
+        <div className="row">
+          <div className="col">
+            <p>PDF Download</p>
+          </div>
+        </div>
+      </div>
+    ));
 
   return (
     <div className="container-fluid">
@@ -25,7 +41,13 @@ const History = () => {
         <div className="col-md-2">
           <UserNav />
         </div>
-        <div className="col">User Page</div>
+        <div className="col text-center">
+          <h4>
+            {orders.length > 0 ? "User Purchase Orders" : "No Purchase Orders"}
+          </h4>
+
+          {showEachOrder()}
+        </div>
       </div>
     </div>
   );
