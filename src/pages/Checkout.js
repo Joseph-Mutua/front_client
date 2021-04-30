@@ -5,6 +5,7 @@ import {
   emptyCart,
   saveUserAddress,
   applyCoupon,
+  createUserCashOrder,
 } from "../functions/user";
 import { toast } from "react-toastify";
 import ReactQuill from "react-quill";
@@ -22,7 +23,7 @@ const Checkout = ({ history }) => {
   const [discountError, setDiscountError] = useState("");
 
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => ({ ...state }));
+  const { user, COD } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
     getUserCart(user.token).then((res) => {
@@ -136,6 +137,15 @@ const Checkout = ({ history }) => {
     </>
   );
 
+  const createCashOrder = () => {
+    createUserCashOrder(user.token).then((res) => {
+      console.log("USER CASH ORDER CREATED", res);
+
+      //Empty Cart from Redux and local Storage, Reset Coupon, COD, 
+      //redirect user to user histoy page
+    });
+  };
+
   return (
     <div className="row">
       <div className="col-md-6">
@@ -172,23 +182,35 @@ const Checkout = ({ history }) => {
         )}
 
         <div className="row">
-          <div className="col-md-3"></div>
-          <button
-            className="btn btn-primary"
-            disabled={!addressSaved || !products.length}
-            onClick={() => history.push("/payment")}
-          >
-            Place Order
-          </button>
+          <div className="col-md-6">
+            {COD ? (
+              <button
+                className="btn btn-primary"
+                disabled={!addressSaved || !products.length}
+                onClick={createCashOrder}
+              >
+                Place Order
+              </button>
+            ) : (
+              <button
+                className="btn btn-primary"
+                disabled={!addressSaved || !products.length}
+                onClick={() => history.push("/payment")}
+              >
+                Place Order
+              </button>
+            )}
+          </div>
 
-          <div className="col-md-3"></div>
-          <button
-            disabled={!products.length}
-            onClick={handleEmptyCart}
-            className="btn btn-primary text-danger"
-          >
-            Empty Cart
-          </button>
+          <div className="col-md-6">
+            <button
+              disabled={!products.length}
+              onClick={handleEmptyCart}
+              className="btn btn-primary text-danger"
+            >
+              Empty Cart
+            </button>
+          </div>
         </div>
       </div>
     </div>

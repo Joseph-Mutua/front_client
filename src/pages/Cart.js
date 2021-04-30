@@ -47,24 +47,23 @@ const Cart = ({ history }) => {
       });
   };
 
-    const saveCashOrderToDb = () => {
-      // console.log("cart", cart)
+  const saveCashOrderToDb = () => {
+    // console.log("cart", cart)
 
-   dispatch({
-     type: "COD",
-     payload: true
-   })
-      
-      userCart(cart, user.token)
-        .then((res) => {
-          console.log("CART POST RESPONSE", res);
-          if (res.data.ok) history.push("/checkout");
-        })
-        .catch((err) => {
-          console.log("CART SAVE ERR", err);
-        });
-    };
+    dispatch({
+      type: "COD",
+      payload: true,
+    });
 
+    userCart(cart, user.token)
+      .then((res) => {
+        console.log("CART POST RESPONSE", res);
+        if (res.data.ok) history.push("/checkout");
+      })
+      .catch((err) => {
+        console.log("CART SAVE ERR", err);
+      });
+  };
 
   return (
     <div className="container-fluid pt-4">
