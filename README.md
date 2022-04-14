@@ -2,7 +2,7 @@
 
 This is the code for the client side of the MERN Stack E-commerce application, built with React.
 
-The server for the App can be found on this (link)[https://github.com/Joseph-Mutua/backend_server]
+The server for the App can be found on this [link](https://github.com/Joseph-Mutua/backend_server)
 
 ## Installation
 
